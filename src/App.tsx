@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Add blockchain explorer URLs based on chain ID
-const explorerUrls = {
+const explorerUrls: Record<number, string> = {
   1: 'https://etherscan.io/tx/', // Ethereum Mainnet
   11155111: 'https://sepolia.etherscan.io/tx/', // Binance Smart Chain
   44787: 'https://alfajores.celoscan.io/tx/', // Polygon
@@ -11,10 +11,25 @@ const explorerUrls = {
   84532: 'https://sepolia.basescan.org/tx/', // Avalanche
   1135: 'https://blockscout.lisk.com/tx/', // Ethereum Goerli Testnet
   4202: 'https://sepolia-blockscout.lisk.com/tx/' // Ethereum Sepolia Testnet
-}
+};
 
 const App = () => {
-  const [transactions, setTransactions] = useState([]);
+  interface Transaction {
+    id: string;
+    created_at: string;
+    tx_hash: string;
+    amount: number;
+    token: string;
+    fiat_amount: number;
+    fiat_currency: string;
+    payout_method: string;
+    mobile_number: string;
+    sender_address: string;
+    recipient_address: string;
+    chain_id: number;
+  }
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -28,6 +43,7 @@ const App = () => {
       } catch (err) {
         setError('Failed to fetch transactions');
         setLoading(false);
+        console.error(err);
       }
     };
 
