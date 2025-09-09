@@ -58,7 +58,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [refreshFlag, setRefreshFlag] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Modal state
   const [modalImg, setModalImg] = useState<string | null>(null);
@@ -191,16 +191,18 @@ const App = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 max-w-[120px] truncate">{tx.recipient_address}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{tx.chain_id}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{tx.status}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-900">
                         <button
                           className="focus:outline-none"
                           onClick={() => setModalImg(tx.image_url ? tx.image_url : NO_PROOF_IMG_URL)}
                           title={tx.image_url ? "Click to preview" : "No proof uploaded"}
+                              style={{ display: 'inline-block' }}
                         >
                           <img
                             src={tx.image_url ? tx.image_url : NO_PROOF_IMG_URL}
                             alt={tx.image_url ? "Proof" : "No proof uploaded"}
-                            className="w-12 h-12 object-cover rounded border"
+                            className="w-12 h-12 object-cover rounded-lg border border-gray-300 shadow-sm hover:shadow-md transition duration-150"
+                            style={{ background: "#f3f4f6" }}
                           />
                         </button>
                       </td>
